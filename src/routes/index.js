@@ -22,18 +22,45 @@ router.post('/signup',passport.authenticate('local-signup',{
     passReqToCallback: true
 }));
 //Login get envias una ventana para ingresar 
-router.get('signin', (req, res, next) => {
+router.get('/signin', (req, res, next) => {
+    res.render('signin');
 
 });
 //login aqui se escucha lo que manda el user
-router.post('/signin', (req, res, next) =>{
+router.post('/signin', passport.authenticate('local-signin',{
+    successRedirect: '/profile',
+    failureRedirect: '/signin',
+    passReqToCallback: true
+}) ); 
+//logout
+router.get('/logout',(req, res, next) =>{
+    req.logOut();
+    res.redirect('/');
+});
 
+//verificar autenticacion
+router.use((req,res,next) => {
+    isAuthenticated(req,res,next);
+    next();
 });
 
 //perfil
 router.get('/profile', (req,res, next) => {
     res.render('profile');
 });
+//ruta dashboard
+router.get('/dashboard', (req,res,next)=>{
+    res.render('dashboard');
+})
+
+//
+function isAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/signin');
+
+}
 
 
 // se exportan las rutas 
