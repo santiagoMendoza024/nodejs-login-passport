@@ -24,7 +24,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('ejs', engine);
 // establecer el motor de plantillas
 app.set('view engine','ejs');
-app.set('port', process.env.PORT || 3000);
+//definimos el puerto
+app.set('port', process.env.PORT || 4000);
 
 //MIDDLEWARES son funciones que se ejecutan antes de pasar a la rutas
 app.use(morgan('dev'));
